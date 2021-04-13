@@ -37,11 +37,11 @@ def role_detail(request, pk):
         return JsonResponse(serializer.data)
     elif request.method == 'PUT':
         data = JSONParser().parse(request)
-        serialier = RoleSerializer(role, data = data)
-        if serialier.is_valid():
-            serialier.save()
-            return JsonResponse(serialier.data)
-        return JsonResponse(serialier.error, status = 400)
+        serializer = RoleSerializer(role, data = data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.error, status = 400)
     elif request.method == 'DELETE':
         role.delete()
         return HttpResponse(status = 204)
