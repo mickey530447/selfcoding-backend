@@ -1,8 +1,17 @@
-from django.urls import path
-from .views import role_list,role_detail
+from django.urls import path, include
+from .views import RoleViewSet, UserViewSet, ProblemViewSet, SolveStatusViewSet, TopicViewSet, ChallengeViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+
+router.register('roles',RoleViewSet,basename='roles')
+router.register('users',UserViewSet,basename='users')
+router.register('problems',ProblemViewSet,basename='problems')
+router.register('solvestatus',SolveStatusViewSet,basename='solvestatus')
+router.register('topics',TopicViewSet,basename='topics')
+router.register('challenges',ChallengeViewSet,basename='challenges')
+
 
 urlpatterns = [
-    path('roles/', role_list),
-    path('roles/<int:pk>',role_detail),
-
+    path('',include(router.urls)),
 ]
