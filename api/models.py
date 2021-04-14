@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+
 
 class Role (models.Model):
     role_name = models.CharField(unique=True, max_length=30)
@@ -6,7 +8,7 @@ class Role (models.Model):
 class User (models.Model):
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
     username = models.CharField(max_length=20)
-    password = models.CharField(max_length=20)
+    # password = models.CharField(max_length=20)
     country = models.CharField(max_length=20)
     email = models.CharField(max_length=30)
     sex = models.BooleanField(null=True)
