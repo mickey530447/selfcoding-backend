@@ -1,6 +1,6 @@
 from django.shortcuts import render,HttpResponse
-from api.models import Role, User, Problem, SolveStatus, Topic, Challenge
-from .serializers import RoleSerializer, UserSerializer, ProblemSerializer, SolveStatusSerializer, TopicSerializer, ChallengeSerializer
+from api.models import User, Problem, SolveStatus, Topic, Challenge
+from .serializers import UserSerializer, ProblemSerializer, SolveStatusSerializer, TopicSerializer, ChallengeSerializer
 # from django.http import JsonResponse
 # from rest_framework.parsers import JSONParser
 # from rest_framework.decorators import api_view
@@ -13,9 +13,9 @@ from rest_framework import viewsets
 # from django.shortcuts import get_object_or_404
 
 
-class RoleViewSet(viewsets.ModelViewSet):
-    serializer_class = RoleSerializer
-    queryset = Role.objects.all()
+# class RoleViewSet(viewsets.ModelViewSet):
+#     serializer_class = RoleSerializer
+#     queryset = Role.objects.all()
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
