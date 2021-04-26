@@ -85,6 +85,7 @@ class Problem(models.Model):
     # update_date = models.DateField(default=date.today)
     content   = models.TextField()
     exp       = models.IntegerField()
+    result    = models.CharField(max_length=50)
 
 class SolveStatus(models.Model):
     user      = models.ForeignKey(User,on_delete=models.CASCADE)
