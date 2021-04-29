@@ -2,9 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser,BaseUserManager
 
 
-# class Role (models.Model):
-#     role_name = models.CharField(unique=True, max_length=30)
-
 class UserManager(BaseUserManager):
     def create_user(self, email, password, **extra_fields):
         if not email:
@@ -61,7 +58,6 @@ class UserManager(BaseUserManager):
         return user
 '''
 class User (AbstractUser):
-    # role      = models.ForeignKey(Role, on_delete=models.CASCADE)
     username = None
     full_name = models.CharField(max_length=255, blank=True, null=True)
     email     = models.EmailField(max_length=255, unique=True)
@@ -76,14 +72,12 @@ class User (AbstractUser):
     def __str__(self):
         return self.email
 
-
-
-
 class Problem(models.Model):
     user      = models.ForeignKey(User,on_delete=models.CASCADE)
     create_date = models.DateField(auto_now_add=True)
+    title = models.CharField(max_length=50)
     # update_date = models.DateField(default=date.today)
-    content   = models.TextField()
+    description   = models.TextField()
     exp       = models.IntegerField()
     result    = models.CharField(max_length=50)
 
@@ -91,15 +85,26 @@ class SolveStatus(models.Model):
     user      = models.ForeignKey(User,on_delete=models.CASCADE)
     problem   = models.ForeignKey(Problem, on_delete=models.CASCADE)
     last_code_path = models.TextField(default="")
+    isSolved  = models.BooleanField(default=False)
 
 class Topic(models.Model):
     user      = models.ForeignKey(User,on_delete=models.CASCADE)
     title     = models.TextField()
     content   = models.TextField()
     create_date = models.DateField(auto_now_add=True)
+    isVerified  = models.BooleanField(default=False)
 
 class Challenge(models.Model):
     user      = models.ForeignKey(User,on_delete=models.CASCADE)
     name      = models.CharField(max_length=50)
     create_date = models.DateField(auto_now_add=True)
     end_date  = models.DateField()
+
+class Class(models.Model):
+    title     = models.CharField(max_length=50)
+    content   = models.TextField()
+    create_date = models.DateField(auto_now_add=True)
+
+class Enrolment(models.Model):
+    user_id      = models.ForeignKey(User, on_delete=models.CASCADE)
+    class_id     = models.ForeignKey(Class, on_delete=models.CASCADE)

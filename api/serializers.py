@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import User, Problem, SolveStatus, Topic, Challenge
+from api.models import User, Problem, SolveStatus, Topic, Challenge, Class,Enrolment
 
 # class RoleSerializer(serializers.ModelSerializer):
 #     class Meta:
@@ -29,4 +29,14 @@ class TopicSerializer(serializers.ModelSerializer):
 class ChallengeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Challenge
+        fields = ('__all__')
+
+class ClassSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Class
+        fields = ('__all__')
+
+class EnrolmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Enrolment
         fields = ('__all__')
