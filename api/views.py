@@ -65,7 +65,7 @@ def get_user_by_email(request):
         user_serialier = UserSerializer(user)
         return JsonResponse(user_serialier.data)
 
-@api_view(['GET'])
+@api_view(['POST'])
 
 def get_all_solved_status(request):
     receive_json_data = json.loads(request.body.decode('utf-8'))
