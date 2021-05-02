@@ -51,20 +51,6 @@ class LoginViewSet(viewsets.ViewSet):
 
         return ObtainAuthToken().as_view()(request = request._request)
 
-# @api_view(['POST'])
-
-# def sign_in(request):
-#     receive_json_data = json.loads(request.body.decode('utf-8'))
-#     username = receive_json_data["username"]
-#     password = receive_json_data["password"]
-#     u = User.objects.filter(username= username,password=password)
-#     if not u:
-#         return JsonResponse({'check':'false'}, status=status.HTTP_200_OK)
-#     else:
-#         user = u.get()
-#         user_serialier = UserSerializer(user)
-#         return JsonResponse(user_serialier.data)
-
 @api_view(['POST'])
 
 def get_user_by_email(request):
