@@ -77,19 +77,7 @@ def get_all_solved_status(request):
         check = solveStt.filter(problem=item.id,user=user_id)
         if check:
             item.solve = True
-            # p.solve = True
-            item.save()
-    print("Solve status in temp")
-    for item in temp:
-        print(item.solve)
-
-    print("Solve status in original")
-    for item in problist:
-        print(item.solve)
 
     serializer = ProblemSerializer(temp, many=True)
 
-    # for item in problist:
-    #     item.solve=False
-    #     item.save()
     return JsonResponse(serializer.data, safe=False)
