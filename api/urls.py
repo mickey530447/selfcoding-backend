@@ -20,4 +20,5 @@ router.register('login',LoginViewSet, basename='login')
 urlpatterns = [
     path('',include(router.urls)),
     url(r'^getuserbyemail$', views.get_user_by_email),
+    url(r'^getallsolveprob$', views.get_all_solved_status),
 ]

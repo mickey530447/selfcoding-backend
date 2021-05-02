@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
 
+
 class UserManager(BaseUserManager):
     def create_user(self, email, password, **extra_fields):
         if not email:
@@ -50,13 +51,20 @@ class User (AbstractUser):
         return self.email
 
 class Problem(models.Model):
+    LEVEL = (
+    ("BEGGINER","Beginner"),
+    ("MIDDLE","Middle"),
+    ("ADVANCE","Advance"),
+)
+    id        = models.IntegerField(primary_key=True)
     user      = models.ForeignKey(User,on_delete=models.CASCADE)
     create_date = models.DateField(auto_now_add=True)
     title = models.CharField(max_length=50)
-    # update_date = models.DateField(default=date.today)
     description   = models.TextField()
     exp       = models.IntegerField()
+    solve     = models.BooleanField(default=False)
     result    = models.CharField(max_length=50)
+    level     = models.CharField(max_length=20, choices=LEVEL)
 
 class SolveStatus(models.Model):
     user      = models.ForeignKey(User,on_delete=models.CASCADE)

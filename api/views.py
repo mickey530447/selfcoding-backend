@@ -10,6 +10,7 @@ from rest_framework.decorators import action, api_view
 from django.http.response import JsonResponse
 import json
 from rest_framework import status
+import copy
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
@@ -63,3 +64,32 @@ def get_user_by_email(request):
         user = u.get()
         user_serialier = UserSerializer(user)
         return JsonResponse(user_serialier.data)
+
+@api_view(['GET'])
+
+def get_all_solved_status(request):
+    receive_json_data = json.loads(request.body.decode('utf-8'))
+    user_id = receive_json_data["id"]
+    problist = Problem.objects.all()
+    solveStt = SolveStatus.objects.all()
+    temp = copy.copy(problist)
+    for item in temp:
+        check = solveStt.filter(problem=item.id,user=user_id)
+        if check:
+            item.solve = True
+            # p.solve = True
+            item.save()
+    print("Solve status in temp")
+    for item in temp:
+        print(item.solve)
+
+    print("Solve status in original")
+    for item in problist:
+        print(item.solve)
+
+    serializer = ProblemSerializer(temp, many=True)
+
+    # for item in problist:
+    #     item.solve=False
+    #     item.save()
+    return JsonResponse(serializer.data, safe=False)
