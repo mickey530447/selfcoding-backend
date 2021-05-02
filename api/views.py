@@ -6,12 +6,15 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-
+from rest_framework.decorators import action, api_view
+from django.http.response import JsonResponse
+import json
+from rest_framework import status
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-
+    
 class ProblemViewSet(viewsets.ModelViewSet):
     serializer_class = ProblemSerializer
     queryset = Problem.objects.all()
@@ -47,3 +50,30 @@ class LoginViewSet(viewsets.ViewSet):
         """Use the ObtainAuthToken APIView to validate and create a token"""
 
         return ObtainAuthToken().as_view()(request = request._request)
+
+# @api_view(['POST'])
+
+# def sign_in(request):
+#     receive_json_data = json.loads(request.body.decode('utf-8'))
+#     username = receive_json_data["username"]
+#     password = receive_json_data["password"]
+#     u = User.objects.filter(username= username,password=password)
+#     if not u:
+#         return JsonResponse({'check':'false'}, status=status.HTTP_200_OK)
+#     else:
+#         user = u.get()
+#         user_serialier = UserSerializer(user)
+#         return JsonResponse(user_serialier.data)
+
+@api_view(['POST'])
+
+def get_user_by_email(request):
+    receive_json_data = json.loads(request.body.decode('utf-8'))
+    email = receive_json_data["email"]
+    u = User.objects.filter(email=email)
+    if not u:
+        return JsonResponse({'check':'false'}, status = status.HTTP_200_OK)
+    else:
+        user = u.get()
+        user_serialier = UserSerializer(user)
+        return JsonResponse(user_serialier.data)
