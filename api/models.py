@@ -52,7 +52,7 @@ class User (AbstractUser):
 
 class Problem(models.Model):
     LEVEL = (
-    ("BEGGINER","Beginner"),
+    ("BEGINNER","Beginner"),
     ("MIDDLE","Middle"),
     ("ADVANCE","Advance"),
 )
