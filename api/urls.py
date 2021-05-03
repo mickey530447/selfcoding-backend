@@ -23,4 +23,7 @@ urlpatterns = [
     url(r'^getuserbyemail$', views.get_user_by_email),
     url(r'^getallsolveprob$', views.get_all_solved_status),
     url(r'^gettopicsparams$', views.get_topics_by_params),
+    url(r'^compile$', views.compile_code),
+    url(r'^modifyuserexp$', views.modifyuserexp),
+    url(r'^setverifiedtopic$', views.modifyVerifiedTopic),
 ]

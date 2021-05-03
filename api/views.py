@@ -10,8 +10,9 @@ from rest_framework.decorators import action, api_view
 from django.http.response import JsonResponse
 import json
 from rest_framework import status
-import copy
+import copy, requests, time
 
+URL = f"https://api.jdoodle.com/v1/execute"
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
@@ -27,8 +28,8 @@ class SolveStatusViewSet(viewsets.ModelViewSet):
 class TopicViewSet(viewsets.ModelViewSet):
     serializer_class = TopicSerializer
     queryset = Topic.objects.all()
-    permission_classes = [IsAuthenticated]
-    authentication_classes = (TokenAuthentication,)
+    # permission_classes = [IsAuthenticated]
+    # authentication_classes = (TokenAuthentication,)
 
 class ChallengeViewSet(viewsets.ModelViewSet):
     serializer_class = ChallengeSerializer
@@ -63,7 +64,7 @@ def get_user_by_email(request):
     email = receive_json_data["email"]
     u = User.objects.filter(email=email)
     if not u:
-        return JsonResponse({'check':'false'}, status = status.HTTP_200_OK)
+        return JsonResponse(status = status.HTTP_401_UNAUTHORIZED)
     else:
         user = u.get()
         user_serialier = UserSerializer(user)
@@ -92,6 +93,7 @@ def get_topics_by_params(request):
     topics = Topic.objects.all()
     receive_json_data = json.loads(request.body.decode('utf-8'))
 
+
     try:
         user_id = receive_json_data["user"]
         topics = topics.filter(user = user_id)
@@ -99,9 +101,42 @@ def get_topics_by_params(request):
         print("No param user")
     try:
         isVerified = receive_json_data["isVerified"]
-        topics = topics.filter(isVerified = True)
+        topics = topics.filter(isVerified = isVerified)
     except:
         print("No param isVerified")
     
     serializer = TopicSerializer(topics, many = True)
     return JsonResponse(serializer.data, safe = False)
+
+@api_view(['POST'])
+
+def compile_code(request):
+    receive_json_data = json.loads(request.body.decode('utf-8'))
+    script = receive_json_data["script"]
+
+    r = requests.get(url = URL, data = {'script' :script,'language': 'nodejs','versionIndex': '3','clientId': 'cd12de35bb91b50d95423b7f37bddde1','clientSecret':'e9521ce97ee8c077cd9152d03c952a2ed5364fdf9e038e25614282154ffb19b7'})
+
+    data = r.json()
+    return JsonResponse({'output': data['output'].strip()})
+
+@api_view(['PUT'])
+
+def modifyuserexp(request):
+    receive_json_data = json.loads(request.body.decode('utf-8'))
+    email = receive_json_data["email"]
+    exp = receive_json_data["exp"]
+    u = User.objects.get(email = email)
+    u.exp = exp
+    u.save()
+    return JsonResponse({},status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+
+def modifyVerifiedTopic(request):
+    receive_json_data = json.loads(request.body.decode('utf-8'))
+    topic_id = receive_json_data["topic_id"]
+    isVerified = receive_json_data["isVerified"]
+    topic = Topic.objects.get(id = topic_id)
+    topic.isVerified = isVerified
+    topic.save()
+    return JsonResponse({},status = status.HTTP_200_OK)
