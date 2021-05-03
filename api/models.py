@@ -69,7 +69,7 @@ class Problem(models.Model):
 class SolveStatus(models.Model):
     user      = models.ForeignKey(User,on_delete=models.CASCADE)
     problem   = models.ForeignKey(Problem, on_delete=models.CASCADE)
-    last_code_path = models.TextField(default="")
+    last_code = models.TextField(default="")
     isSolved  = models.BooleanField(default=False)
 
 class Topic(models.Model):
@@ -81,6 +81,8 @@ class Topic(models.Model):
 
 class Challenge(models.Model):
     user      = models.ForeignKey(User,on_delete=models.CASCADE)
+    description = models.TextField()
+    result    = models.CharField(max_length=50)
     name      = models.CharField(max_length=50)
     create_date = models.DateField(auto_now_add=True)
     end_date  = models.DateField()
@@ -93,3 +95,7 @@ class Class(models.Model):
 class Enrolment(models.Model):
     user_id      = models.ForeignKey(User, on_delete=models.CASCADE)
     class_id     = models.ForeignKey(Class, on_delete=models.CASCADE)
+
+class Participant(models.Model):
+    user_id      = models.ForeignKey(User, on_delete = models.CASCADE)
+    challenge_id = models.ForeignKey(Challenge, on_delete = models.CASCADE)

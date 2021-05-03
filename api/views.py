@@ -1,6 +1,6 @@
 from django.shortcuts import render,HttpResponse
-from api.models import User, Problem, SolveStatus, Topic, Challenge, Class,Enrolment
-from .serializers import UserSerializer, ProblemSerializer, SolveStatusSerializer, TopicSerializer, ChallengeSerializer, ClassSerializer, EnrolmentSerializer
+from api.models import User, Problem, SolveStatus, Topic, Challenge, Class,Enrolment, Participant
+from .serializers import UserSerializer, ProblemSerializer, SolveStatusSerializer, TopicSerializer, ChallengeSerializer, ClassSerializer, EnrolmentSerializer, ParticipantSerializer
 from rest_framework import viewsets
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -41,6 +41,10 @@ class ClassViewSet(viewsets.ModelViewSet):
 class EnrolmentViewSet(viewsets.ModelViewSet):
     serializer_class = EnrolmentSerializer
     queryset = Enrolment.objects.all()
+
+class ParticipantViewSet(viewsets.ModelViewSet):
+    serializer_class = ParticipantSerializer
+    queryset = Participant.objects.all()
 
 class LoginViewSet(viewsets.ViewSet):
     """Check email and password and return Authtoken"""
