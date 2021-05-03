@@ -21,4 +21,5 @@ urlpatterns = [
     path('',include(router.urls)),
     url(r'^getuserbyemail$', views.get_user_by_email),
     url(r'^getallsolveprob$', views.get_all_solved_status),
+    url(r'^gettopicsparams$', views.get_topics_by_params),
 ]

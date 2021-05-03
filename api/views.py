@@ -81,3 +81,23 @@ def get_all_solved_status(request):
     serializer = ProblemSerializer(temp, many=True)
 
     return JsonResponse(serializer.data, safe=False)
+
+@api_view(['POST'])
+
+def get_topics_by_params(request):
+    topics = Topic.objects.all()
+    receive_json_data = json.loads(request.body.decode('utf-8'))
+
+    try:
+        user_id = receive_json_data["user"]
+        topics = topics.filter(user = user_id)
+    except:
+        print("No param user")
+    try:
+        isVerified = receive_json_data["isVerified"]
+        topics = topics.filter(isVerified = True)
+    except:
+        print("No param isVerified")
+    
+    serializer = TopicSerializer(topics, many = True)
+    return JsonResponse(serializer.data, safe = False)
