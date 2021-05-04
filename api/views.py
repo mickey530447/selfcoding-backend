@@ -120,13 +120,13 @@ def compile_code(request):
         'clientId':'874c1c58bd67194163ec3b52e94930dd',
         'clientSecret':'3d4b44f34fb8d4fab03a93c7f61b092a858bd71f21b95b3244069e6a659b18b8'}
 
-    r = requests.post(url = URL, json = body_json)
+    r = requests.post(url = URL, 
+                    json = body_json,
+                    timeout=(2,2))
 
     data = r.json()
-    # print(script)
-    print(data)
     return JsonResponse({'output': data["output"].strip()})
-    # return JsonResponse({},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 @api_view(['PUT'])
 
