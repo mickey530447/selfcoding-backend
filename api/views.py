@@ -149,3 +149,18 @@ def modifyVerifiedTopic(request):
     topic.isVerified = isVerified
     topic.save()
     return JsonResponse({},status = status.HTTP_200_OK)
+
+@api_view(['POST'])
+
+def getClassStatusByUser(request):
+    receive_json_data = json.loads(request.body.decode('utf-8'))
+    user_id = receive_json_data["user_id"]
+    classes = Class.objects.all()
+    enrollment = Enrolment.objects.all()
+    temp = copy.copy(classes)
+    for item in temp:
+        check = enrollment.filter(class_id=item.id, user_id=user_id)
+        if check:
+            item.enrollment = True
+    serializer = ClassSerializer(temp, many = True)
+    return JsonResponse(serializer.data, safe=False)

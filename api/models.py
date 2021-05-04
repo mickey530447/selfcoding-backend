@@ -89,6 +89,7 @@ class Class(models.Model):
     title     = models.CharField(max_length=50)
     content   = models.TextField()
     create_date = models.DateField(auto_now_add=True)
+    enrollment= models.BooleanField(default=False)
 
 class Enrolment(models.Model):
     user_id      = models.ForeignKey(User, on_delete=models.CASCADE)

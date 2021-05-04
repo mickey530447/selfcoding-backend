@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^compile$', views.compile_code),
     url(r'^modifyuserexp$', views.modifyuserexp),
     url(r'^setverifiedtopic$', views.modifyVerifiedTopic),
+    url(r'^getclassbyuser$', views.getClassStatusByUser),
 ]
