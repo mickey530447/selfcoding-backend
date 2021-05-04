@@ -114,10 +114,13 @@ def compile_code(request):
     receive_json_data = json.loads(request.body.decode('utf-8'))
     script = receive_json_data["script"]
 
-    r = requests.get(url = URL, data = {'script' :script,'language': 'nodejs','versionIndex': '3','clientId': 'cd12de35bb91b50d95423b7f37bddde1','clientSecret':'e9521ce97ee8c077cd9152d03c952a2ed5364fdf9e038e25614282154ffb19b7'})
+    r = requests.get(url = URL, data = {'script':'console.log(10)','language':'nodejs','versionIndex': '3','clientId':'874c1c58bd67194163ec3b52e94930dd','clientSecret':'3d4b44f34fb8d4fab03a93c7f61b092a858bd71f21b95b3244069e6a659b18b8'})
 
     data = r.json()
-    return JsonResponse({'output': data['output'].strip()})
+    # print(script)
+    print(data)
+    # return JsonResponse({'output': data["output"].strip()})
+    return JsonResponse({},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['PUT'])
 
